@@ -8,24 +8,43 @@
 	<packaging>jar</packaging>
 
 	<name>xson-redis</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/xsonorg/redis</url>
+	<description>A third-party redis extension tool.</description>
 
 	<properties>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<developers>
+		<developer>
+			<id>david</id>
+			<name>david</name>
+			<email>xson_org@126.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<url>https://github.com/xsonorg/redis.git</url>
+		<connection>scm:git:https://github.com/xsonorg/redis.git</connection>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
 	<distributionManagement>
-		<repository>
-			<id>haorizi.releases.http</id>
-			<name>Nexus Release Repository</name>
-			<url>http://192.168.2.125/nexus/content/repositories/releases/</url>
-		</repository>
 		<snapshotRepository>
-			<id>haorizi.snapshots.http</id>
-			<name>Nexus Snapshot Repository</name>
-			<url>http://192.168.2.125/nexus/content/repositories/snapshots/</url>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</snapshotRepository>
+		<repository>
+			<id>oss</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 	<dependencies>
@@ -41,7 +60,6 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -64,6 +82,57 @@
 					<compilerVersion>${java.version}</compilerVersion>
 					<showWarnings>true</showWarnings>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<show>public</show>
+					<charset>UTF-8</charset>
+					<encoding>UTF-8</encoding>
+					<docencoding>UTF-8</docencoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
