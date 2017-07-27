@@ -3,7 +3,8 @@ package org.xson.thirdparty.redis;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.xson.logging.Log;
+import org.xson.logging.LogFactory;
 import org.xson.thirdparty.redis.JedisConfig.JedisMode;
 
 import redis.clients.jedis.BinaryJedisCommands;
@@ -16,12 +17,13 @@ import redis.clients.util.Pool;
 
 public class JedisDefaultHandler extends AbstractClientOperation {
 
-	private static Logger	logger	= Logger.getLogger(JedisDefaultHandler.class);
+	// private static Logger logger = Logger.getLogger(JedisDefaultHandler.class);
+	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisDefaultHandler() {
 	}
 
-	protected Pool<?>	pool	= null;
+	protected Pool<?> pool = null;
 
 	public void start(JedisConfig jedisConfig) throws Throwable {
 
@@ -74,7 +76,7 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 				ret = true;
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			log.error("test connection error.", e);
 		} finally {
 			recycle(jedis);
 		}

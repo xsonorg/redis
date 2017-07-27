@@ -9,7 +9,8 @@ import org.xson.thirdparty.redis.JedisClient;
 
 public class AppTest {
 
-	JedisClient	client	= JedisClient.getInstance();
+	// JedisClient client = JedisClient.getInstance();
+	JedisClient client = new JedisClient();
 
 	@Before
 	public void before() {

@@ -3,31 +3,33 @@ package org.xson.thirdparty.redis;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.xson.logging.Log;
+import org.xson.logging.LogFactory;
 import org.xson.thirdparty.redis.JedisConfig.JedisMode;
 
 public class JedisClient {
 
-	private static Logger		logger		= Logger.getLogger(JedisClient.class);
+	// private static Logger logger = Logger.getLogger(JedisClient.class);
+	// private static JedisClient instance = null;
+	//
+	// /**
+	// * 获取客户端实例,非线程安全
+	// */
+	// public static JedisClient getInstance() {
+	// if (null == instance) {
+	// instance = new JedisClient();
+	// }
+	// return instance;
+	// }
+	//
+	// private JedisClient() {
+	// }
 
-	private static JedisClient	instance	= null;
+	private Log						log				= LogFactory.getLog(getClass());
 
-	/**
-	 * 获取客户端实例,非线程安全
-	 */
-	public static JedisClient getInstance() {
-		if (null == instance) {
-			instance = new JedisClient();
-		}
-		return instance;
-	}
+	private AbstractClientOperation	clientOperation	= null;
 
-	private JedisClient() {
-	}
-
-	private AbstractClientOperation	clientOperation;
-
-	private volatile boolean		running	= false;
+	private volatile boolean		running			= false;
 
 	public void start(Properties properties) throws Throwable {
 		if (running) {
@@ -45,8 +47,7 @@ public class JedisClient {
 			}
 			clientOperation.start(jedisConfig);
 		} catch (Throwable e) {
-			// logger.error("JedisClient Failed to start", e);
-			logger.error("JedisClient Failed to start");
+			log.error("JedisClient Failed to start");
 			stop();
 			throw e;
 		}

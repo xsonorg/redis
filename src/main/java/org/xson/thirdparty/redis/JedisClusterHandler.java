@@ -2,19 +2,21 @@ package org.xson.thirdparty.redis;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.xson.logging.Log;
+import org.xson.logging.LogFactory;
 
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
 
 public class JedisClusterHandler extends AbstractClientOperation {
 
-	private static Logger	logger	= Logger.getLogger(JedisClusterHandler.class);
+	// private static Logger logger = Logger.getLogger(JedisClusterHandler.class);
+	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisClusterHandler() {
 	}
 
-	protected JedisCluster	pool	= null;
+	protected JedisCluster pool = null;
 
 	public void start(JedisConfig jedisConfig) throws Throwable {
 		pool = new JedisCluster(jedisConfig.clusters, jedisConfig.clusterConnectionTimeout, jedisConfig.clusterSoTimeout,
@@ -41,7 +43,7 @@ public class JedisClusterHandler extends AbstractClientOperation {
 				ret = true;
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			log.error("test connection error.", e);
 		} finally {
 			recycle(jedis);
 		}
