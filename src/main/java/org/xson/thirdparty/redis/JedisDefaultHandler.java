@@ -18,12 +18,12 @@ import redis.clients.util.Pool;
 public class JedisDefaultHandler extends AbstractClientOperation {
 
 	// private static Logger logger = Logger.getLogger(JedisDefaultHandler.class);
-	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
+	private static Log	log	= LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisDefaultHandler() {
 	}
 
-	protected Pool<?> pool = null;
+	protected Pool<?>	pool	= null;
 
 	public void start(JedisConfig jedisConfig) throws Throwable {
 
@@ -250,12 +250,12 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 		return ret;
 	}
 
-	public Long hget(String key, String field, String value) {
+	public Long hset(String key, String field, String value) {
 		JedisCommands jedis = null;
 		Long ret = null;
 		try {
 			jedis = (JedisCommands) pool.getResource();
-			ret = jedis.hset(key, field, value);
+			ret = jedis.hset(key, field, value);// fix bug
 		} catch (Exception e) {
 			throw new JedisRuntimeException("hget operation exception, key[" + key + "]", e);
 		} finally {
