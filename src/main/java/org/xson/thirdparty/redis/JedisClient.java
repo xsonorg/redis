@@ -1,5 +1,6 @@
 package org.xson.thirdparty.redis;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -103,6 +104,10 @@ public class JedisClient {
 
 	public Long hset(String key, String field, String value) throws JedisRuntimeException {
 		return clientOperation.hset(key, field, value);
+	}
+
+	public List<String> hvals(String key) throws JedisRuntimeException {
+		return clientOperation.hvals(key);
 	}
 
 	public String lpop(String key) throws JedisRuntimeException {

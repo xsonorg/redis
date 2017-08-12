@@ -1,6 +1,7 @@
 package org.xson.thirdparty.redis;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 
 import org.xson.logging.Log;
@@ -18,12 +19,12 @@ import redis.clients.util.Pool;
 public class JedisDefaultHandler extends AbstractClientOperation {
 
 	// private static Logger logger = Logger.getLogger(JedisDefaultHandler.class);
-	private static Log	log	= LogFactory.getLog(JedisClusterHandler.class);
+	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisDefaultHandler() {
 	}
 
-	protected Pool<?>	pool	= null;
+	protected Pool<?> pool = null;
 
 	public void start(JedisConfig jedisConfig) throws Throwable {
 
@@ -262,6 +263,19 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			recycle(jedis);
 		}
 		return ret;
+	}
+
+	@Override
+	public List<String> hvals(String key) {
+		JedisCommands jedis = null;
+		try {
+			jedis = (JedisCommands) pool.getResource();
+			return jedis.hvals(key);
+		} catch (Exception e) {
+			throw new JedisRuntimeException("hvals operation exception, key[" + key + "]", e);
+		} finally {
+			recycle(jedis);
+		}
 	}
 
 	public String lpop(String key) {
