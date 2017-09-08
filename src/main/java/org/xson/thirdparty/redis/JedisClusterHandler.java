@@ -2,16 +2,10 @@ package org.xson.thirdparty.redis;
 
 import java.util.Map;
 
-import org.xson.logging.Log;
-import org.xson.logging.LogFactory;
-
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisCommands;
 
 public class JedisClusterHandler extends AbstractClientOperation {
-
-	// private static Logger logger = Logger.getLogger(JedisClusterHandler.class);
-	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisClusterHandler() {
 	}
@@ -43,7 +37,7 @@ public class JedisClusterHandler extends AbstractClientOperation {
 				ret = true;
 			}
 		} catch (Exception e) {
-			log.error("test connection error.", e);
+			throw new JedisRuntimeException("test connection error.", e);
 		} finally {
 			recycle(jedis);
 		}

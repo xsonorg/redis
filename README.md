@@ -5,3 +5,4 @@ A third-party redis extension tool
 
 1. fix hset
 2. add hvals
+3. 去除org.xson.logging依赖

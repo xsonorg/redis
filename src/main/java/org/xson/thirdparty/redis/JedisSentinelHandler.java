@@ -3,9 +3,6 @@ package org.xson.thirdparty.redis;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import org.xson.logging.Log;
-import org.xson.logging.LogFactory;
-
 import redis.clients.jedis.BinaryJedisCommands;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCommands;
@@ -13,9 +10,6 @@ import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.util.Pool;
 
 public class JedisSentinelHandler extends AbstractClientOperation {
-
-	// private static Logger logger = Logger.getLogger(JedisSentinelHandler.class);
-	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
 
 	protected JedisSentinelHandler() {
 	}
@@ -52,7 +46,7 @@ public class JedisSentinelHandler extends AbstractClientOperation {
 				ret = true;
 			}
 		} catch (Exception e) {
-			log.error("test connection error.", e);
+			throw new JedisRuntimeException("test connection error.", e);
 		} finally {
 			recycle(jedis);
 		}

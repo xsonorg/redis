@@ -4,29 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.xson.logging.Log;
-import org.xson.logging.LogFactory;
 import org.xson.thirdparty.redis.JedisConfig.JedisMode;
 
 public class JedisClient {
-
-	// private static Logger logger = Logger.getLogger(JedisClient.class);
-	// private static JedisClient instance = null;
-	//
-	// /**
-	// * 获取客户端实例,非线程安全
-	// */
-	// public static JedisClient getInstance() {
-	// if (null == instance) {
-	// instance = new JedisClient();
-	// }
-	// return instance;
-	// }
-	//
-	// private JedisClient() {
-	// }
-
-	private Log						log				= LogFactory.getLog(getClass());
 
 	private AbstractClientOperation	clientOperation	= null;
 
@@ -48,7 +28,7 @@ public class JedisClient {
 			}
 			clientOperation.start(jedisConfig);
 		} catch (Throwable e) {
-			log.error("JedisClient Failed to start");
+			// log.error("JedisClient Failed to start");
 			stop();
 			throw e;
 		}

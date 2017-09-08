@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-import org.xson.logging.Log;
-import org.xson.logging.LogFactory;
 import org.xson.thirdparty.redis.JedisConfig.JedisMode;
 
 import redis.clients.jedis.BinaryJedisCommands;
@@ -18,30 +16,12 @@ import redis.clients.util.Pool;
 
 public class JedisDefaultHandler extends AbstractClientOperation {
 
-	// private static Logger logger = Logger.getLogger(JedisDefaultHandler.class);
-	private static Log log = LogFactory.getLog(JedisClusterHandler.class);
-
 	protected JedisDefaultHandler() {
 	}
 
 	protected Pool<?> pool = null;
 
 	public void start(JedisConfig jedisConfig) throws Throwable {
-
-		// JedisPoolConfig poolConfig = new JedisPoolConfig();
-		//
-		// poolConfig.setMaxTotal(jedisConfig.maxTotal);
-		// poolConfig.setMaxIdle(jedisConfig.maxIdle);
-		// poolConfig.setMinIdle(jedisConfig.minIdle);
-		// poolConfig.setTestOnBorrow(jedisConfig.testOnBorrow);
-		// poolConfig.setTestOnReturn(jedisConfig.testOnReturn);
-		//
-		// poolConfig.setMaxWaitMillis(jedisConfig.maxWaitMillis);
-		// poolConfig.setTestWhileIdle(jedisConfig.testWhileIdle);
-		// poolConfig.setMinEvictableIdleTimeMillis(jedisConfig.minEvictableIdleTimeMillis);
-		// poolConfig.setTimeBetweenEvictionRunsMillis(jedisConfig.timeBetweenEvictionRunsMillis);
-		// poolConfig.setNumTestsPerEvictionRun(jedisConfig.numTestsPerEvictionRun);
-
 		if (JedisMode.SHARDED == jedisConfig.mode) {
 			pool = new ShardedJedisPool(jedisConfig.poolConfig, jedisConfig.shardList, jedisConfig.hashing);
 		} else {
@@ -77,7 +57,7 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 				ret = true;
 			}
 		} catch (Exception e) {
-			log.error("test connection error.", e);
+			throw new JedisRuntimeException("test connection error.", e);
 		} finally {
 			recycle(jedis);
 		}
