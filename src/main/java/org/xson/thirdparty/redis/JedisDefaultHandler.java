@@ -47,6 +47,24 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 	}
 
 	@Override
+	public String flushAll() {
+		Object jedis = (JedisCommands) pool.getResource();
+		if (jedis instanceof Jedis) {
+			return ((Jedis) jedis).flushAll();
+		}
+		return null;
+	}
+
+	@Override
+	public String flushDB() {
+		Object jedis = (JedisCommands) pool.getResource();
+		if (jedis instanceof Jedis) {
+			return ((Jedis) jedis).flushDB();
+		}
+		return null;
+	}
+
+	@Override
 	public boolean testConnection() {
 		JedisCommands jedis = null;
 		boolean ret = false;
@@ -72,11 +90,18 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (BinaryJedisCommands) pool.getResource();
 			ret = jedis.set(key, value);
 		} catch (Exception e) {
+			// try {
+			// throw new JedisRuntimeException("set operation exception, key[" + new String(key, keyEncode) + "]", e);
+			// } catch (UnsupportedEncodingException e1) {
+			// e1.printStackTrace();
+			// }
+			String _key = null;
 			try {
-				throw new JedisRuntimeException("set operation exception, key[" + new String(key, keyEncode) + "]", e);
+				_key = new String(key, keyEncode);
 			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+				_key = "";
 			}
+			throw new JedisRuntimeException("set operation exception, key[" + _key + "]", e);
 		} finally {
 			recycle(jedis);
 		}
@@ -91,11 +116,13 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (BinaryJedisCommands) pool.getResource();
 			ret = jedis.set(key, value, nxxx, expx, time);
 		} catch (Exception e) {
+			String _key = null;
 			try {
-				throw new JedisRuntimeException("set operation exception, key[" + new String(key, keyEncode) + "]", e);
+				_key = new String(key, keyEncode);
 			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+				_key = "";
 			}
+			throw new JedisRuntimeException("set operation exception, key[" + _key + "]", e);
 		} finally {
 			recycle(jedis);
 		}
@@ -110,11 +137,13 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (BinaryJedisCommands) pool.getResource();
 			ret = jedis.get(key);
 		} catch (Exception e) {
+			String _key = null;
 			try {
-				throw new JedisRuntimeException("get operation exception, key[" + new String(key, keyEncode) + "]", e);
+				_key = new String(key, keyEncode);
 			} catch (UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+				_key = "";
 			}
+			throw new JedisRuntimeException("get operation exception, key[" + _key + "]", e);
 		} finally {
 			recycle(jedis);
 		}
@@ -129,10 +158,6 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (JedisCommands) pool.getResource();
 			ret = jedis.set(key, value);
 		} catch (Exception e) {
-			// logger.error("set operation exception, key[" + key + "], value["
-			// + value + "]", e);
-			// logger.error("set operation exception, key[" + key + "], value["
-			// + value + "]");
 			throw new JedisRuntimeException("set operation exception, key[" + key + "], value[" + value + "]", e);
 		} finally {
 			recycle(jedis);
@@ -148,8 +173,6 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (JedisCommands) pool.getResource();
 			ret = jedis.set(key, value, nxxx, expx, time);
 		} catch (Exception e) {
-			// logger.error("set operation exception, key[" + key + "], value["
-			// + value + "]");
 			throw new JedisRuntimeException("set operation exception, key[" + key + "], value[" + value + "]", e);
 		} finally {
 			recycle(jedis);
@@ -165,7 +188,6 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (JedisCommands) pool.getResource();
 			ret = jedis.get(key);
 		} catch (Exception e) {
-			// logger.error("get operation exception, key[" + key + "]");
 			throw new JedisRuntimeException("get operation exception, key[" + key + "]", e);
 		} finally {
 			recycle(jedis);
@@ -181,7 +203,6 @@ public class JedisDefaultHandler extends AbstractClientOperation {
 			jedis = (JedisCommands) pool.getResource();
 			ret = jedis.del(key);
 		} catch (Exception e) {
-			// logger.error("del operation exception, key[" + key + "]");
 			throw new JedisRuntimeException("del operation exception, key[" + key + "]", e);
 		} finally {
 			recycle(jedis);

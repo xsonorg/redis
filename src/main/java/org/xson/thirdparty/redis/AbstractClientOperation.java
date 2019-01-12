@@ -12,4 +12,12 @@ public abstract class AbstractClientOperation extends JedisCommandAdapter {
 
 	abstract public boolean testConnection();
 
+	protected String flushDB() {
+		return null;
+	}
+
+	protected String flushAll() {
+		return null;
+	}
+
 }

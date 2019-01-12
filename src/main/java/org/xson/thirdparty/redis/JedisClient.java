@@ -42,6 +42,14 @@ public class JedisClient {
 		}
 	}
 
+	public String flushAll() {
+		return clientOperation.flushAll();
+	}
+
+	public String flushDB() {
+		return clientOperation.flushDB();
+	}
+
 	public String set(byte[] key, byte[] value) throws JedisRuntimeException {
 		return clientOperation.set(key, value);
 	}

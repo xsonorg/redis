@@ -54,6 +54,24 @@ public class JedisSentinelHandler extends AbstractClientOperation {
 	}
 
 	@Override
+	public String flushAll() {
+		Object jedis = (JedisCommands) pool.getResource();
+		if (jedis instanceof Jedis) {
+			return ((Jedis) jedis).flushAll();
+		}
+		return null;
+	}
+
+	@Override
+	public String flushDB() {
+		Object jedis = (JedisCommands) pool.getResource();
+		if (jedis instanceof Jedis) {
+			return ((Jedis) jedis).flushDB();
+		}
+		return null;
+	}
+
+	@Override
 	public String set(byte[] key, byte[] value) {
 		BinaryJedisCommands jedis = null;
 		String ret = null;

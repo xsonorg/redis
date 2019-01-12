@@ -76,4 +76,12 @@ public class AppTest {
 		}
 	}
 
+	@Test
+	public void test04() {
+		// String res = client.flushAll();
+		// System.out.println(res);
+		String res = client.flushDB();
+		System.out.println(res);
+	}
+
 }
